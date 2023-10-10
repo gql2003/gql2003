@@ -164,12 +164,10 @@ def cal_ans(file_name, indic, outdic, inv):
                             t += 1
                             # print(len(to), ans, t)
             ans = len(to)
-            with open('qwq.txt', 'a') as f:
-              f.write(str(ans) + '\n')
         return ans
 
-    workers = min(20 , len(inv))
-    with concurrent.futures.ThreadPoolExecutor(workers) as executor:
+    # workers = min(20 , len(inv))
+    with concurrent.futures.ThreadPoolExecutor() as executor:
         results = executor.map(calculate_vertex, inv)
         for result in results:
             ans += result
@@ -181,65 +179,10 @@ input_file_name1 = 'com-lj.ungraph.txt'
 input_file_name2 = 'test-lj-60.txt'
 output_file_name = 'result.txt'
 tot_ver, upper_ver = count_ver(input_file_name2)
-output_file_name2 = "upper_60_lj.txt"
-with open(output_file_name2, 'w') as f:
-   for item in upper_ver : f.write(str(item) + '\n')
-
-upper_ver = set()
-# 从文件中读取数据
-with open('upper_60_lj.txt', 'r') as f:
-    lines = f.readlines()
-    for line in lines:
-        item = str(line.strip())
-        upper_ver.add(item)
-print(len(upper_ver))
 
 indu, outdu = upper_partitions(input_file_name2, upper_ver)
-# print(len(indu),len(outdu))
-'''
-output_file_name3 = "indu_30_lj.txt"
-# with open(output_file_name3, 'w') as f:
-    # for item in indu : f.write(str(item) + '\n')
-indu = set()
-with open(output_file_name3, 'r') as f:
-    lines = f.readlines()
-    for line in lines:
-        item = str(line.strip())
-        indu.add(item)
-print(len(indu))
-output_file_name3 = "outdu_30_lj.txt"
-outdu = set()
-with open(output_file_name3, 'r') as f:
-    lines = f.readlines()
-    for line in lines:
-        item = str(line.strip())
-        outdu.add(item)
-print(len(outdu))
-# with open(output_file_name3, 'w') as f:
-    # for item in outdu : f.write(str(item) + '\n')
-# print("func2 done")
-'''
+
 in_dict, out_dict, in_v = cal_dic(input_file_name2, upper_ver, indu, outdu)
 
-print("over dict : ", len(in_dict), len(out_dict))
-
-'''
-output_file_name4 = "inv_30_lj.txt"
-in_v = set()
-with open(output_file_name4, 'r') as f:
-    lines = f.readlines()
-    for line in lines:
-        item = str(line.strip())
-        in_v.add(item)
-print(len(in_v))
-'''
 
 cal_ans(input_file_name2, in_dict, out_dict, in_v)
-
-'''
-print("节点  入度  出度")
-for node in in_degrees.keys():
-    in_degree = in_degrees[node] if node in in_degrees else 0
-    out_degree = out_degrees[node] if node in out_degrees else 0
-    print(f"{node}     {in_degree}     {out_degree}")
-'''
